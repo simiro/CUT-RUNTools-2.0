@@ -70,7 +70,7 @@ fi
 >&2 echo "[info] Aligning FASTQ files ..."
 >&2 date
 mkdir -p $logdir/bowtie2
-$path_parallel/parallel -k -j $cores "($bowtie2bin/bowtie2 --phred33 -x $bt2idx/$genome_prefix -1 $trimdir2/{}_R1_001.fastq.gz -2 $trimdir2/{}_R2_001.fastq.gz) 2> $logdir/bowtie2/{}.bowtie2 | $samtoolsbin/samtools view -bS - > $aligndir/{}_aligned_reads.bam" ::: $infiles >/dev/null 2>&1
+$path_parallel/parallel -k -j $cores "($bowtie2bin/bowtie2 --phred33 -x $bt2idx -1 $trimdir2/{}_R1_001.fastq.gz -2 $trimdir2/{}_R2_001.fastq.gz) 2> $logdir/bowtie2/{}.bowtie2 | $samtoolsbin/samtools view -bS - > $aligndir/{}_aligned_reads.bam" ::: $infiles >/dev/null 2>&1
 >&2 echo "[info] Alignment finished ..."
 >&2 date
 
