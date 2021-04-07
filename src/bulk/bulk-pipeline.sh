@@ -51,11 +51,11 @@ if [ "$frag_120" == "TRUE" ]
 then
     echo "[info] Bowtie2 command: --dovetail --phred33"
     echo "[info] The dovetail mode is enabled [as parameter frag_120 is on]"
-    ($bowtie2bin/bowtie2 -p $cores --dovetail --phred33 -x $bt2idx/genome -1 $trimdir2/"$base"_1.paired.fastq.gz -2 $trimdir2/"$base"_2.paired.fastq.gz) 2> $logdir/"$base".bowtie2 | $samtoolsbin/samtools view -bS - > $aligndir/"$base".bam
+    ($bowtie2bin/bowtie2 -p $cores --dovetail --phred33 -x $bt2idx -1 $trimdir2/"$base"_1.paired.fastq.gz -2 $trimdir2/"$base"_2.paired.fastq.gz) 2> $logdir/"$base".bowtie2 | $samtoolsbin/samtools view -bS - > $aligndir/"$base".bam
 else
     echo "[info] Bowtie2 command: --very-sensitive-local --phred33 -I 10 -X 700"
     echo "[info] The dovetail mode is off [as parameter frag_120 is off]"
-    ($bowtie2bin/bowtie2 -p $cores --very-sensitive-local --phred33 -I 10 -X 700 -x $bt2idx/genome -1 $trimdir2/"$base"_1.paired.fastq.gz -2 $trimdir2/"$base"_2.paired.fastq.gz) 2> $logdir/"$base".bowtie2 | $samtoolsbin/samtools view -bS - > $aligndir/"$base".bam
+    ($bowtie2bin/bowtie2 -p $cores --very-sensitive-local --phred33 -I 10 -X 700 -x $bt2idx -1 $trimdir2/"$base"_1.paired.fastq.gz -2 $trimdir2/"$base"_2.paired.fastq.gz) 2> $logdir/"$base".bowtie2 | $samtoolsbin/samtools view -bS - > $aligndir/"$base".bam
 fi
 
 spikein_dir=$workdir/spike_in
@@ -65,7 +65,7 @@ then
     mkdir -p $spikein_dir
     >&2 echo "[info] Aligning file $base to spike-in genome"
     >&2 date
-    ($bowtie2bin/bowtie2 -p $cores --dovetail --phred33 -x $spike_in_bt2idx/genome -1 $trimdir2/"$base"_1.paired.fastq.gz -2 $trimdir2/"$base"_2.paired.fastq.gz) 2> $logdir/"$base".spikein.bowtie2 | $samtoolsbin/samtools view -bS - > $spikein_dir/"$base".bam
+    ($bowtie2bin/bowtie2 -p $cores --dovetail --phred33 -x $spike_in_bt2idx -1 $trimdir2/"$base"_1.paired.fastq.gz -2 $trimdir2/"$base"_2.paired.fastq.gz) 2> $logdir/"$base".spikein.bowtie2 | $samtoolsbin/samtools view -bS - > $spikein_dir/"$base".bam
 
     $logdir/"$base".spikein.bowtie2
     total_reads=`cat $logdir/"$base".spikein.bowtie2 | grep "reads; of these:" | awk '{print $1}' - FS=' '`
