@@ -27,11 +27,12 @@ mkdir -p assemblies/$organism_build
 cd assemblies/$organism_build
 wget $url -O chromFaMasked.tar.gz
 tar -zxf chromFaMasked.tar.gz
-#ls -1 maskedChroms/chr*.fa|xargs cat > hg38.fa
-ls -1 chr*.fa.masked | xargs cat > ${organism_build}.fa
+ls -1 maskedChroms/chr*.fa|xargs cat > hg38.fa
+#ls -1 chr*.fa.masked | xargs cat > ${organism_build}.fa
 #should create *.fai index file
-$bedtoolsbin/bedtools getfasta -fi ${organism_build}.fa -bed ../../sample.bed
-#rm -rf chr*.fa.masked
+#$bedtoolsbin/bedtools getfasta -fi ${organism_build}.fa -bed ../../sample.bed
+$samtoolsbin/samtools faidx ${organism_build}.fa -o ${organism_build}.fa.fai
+rm -r maskedChroms
 cd $cur
 
 
